@@ -14,7 +14,7 @@
     this.numer = numer;
     this.tresc = tresc;
 
-  }
+  };
 
 
 const pytania = document.querySelectorAll(".trescE")    
@@ -50,7 +50,7 @@ a.click()</code>
     <h2>Skrypt 2</h2>
     <code>
     var odpowiedzi = [];
-var SesjaOdpowiedzi = document.getElementsByClassName("odpowiedzE")
+var SesjaOdpowiedzi = document.getElementsByClassName("odpowiedzE");
 
 for(var i=0;i< SesjaOdpowiedzi.length;i++){
     const poprawa = SesjaOdpowiedzi[i].innerText.slice(4,SesjaOdpowiedzi[i].innerText.lenght);
@@ -61,9 +61,8 @@ for(var i=0;i< SesjaOdpowiedzi.length;i++){
         parent.classList.toggle("odpowiedzEzazn")
     }
     else{
-        //! TODO: if odpowiedzi[x] is false alert a question IF TO LEAVE THOSE UNMARKED OR IF TO SELECT A RANDOM ONE
-         console.log(":")
-    }
+         console.log(":(");
+    };
     }
 }</code>
 </body>
