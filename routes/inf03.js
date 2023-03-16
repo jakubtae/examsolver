@@ -59,10 +59,10 @@ router.post("/upload", (req, res) => {
       }
     }
     // * END OF FIRST FOR LOOP
-    var id = sesjaPlik.path.slice(5, sesjaPlik.path.length);
-    console.log(id);
-    console.log(odpowiedzi); //!AN ARRAY OF ANSWERS
-    res.render();
+    // var id = sesjaPlik.path.slice(5, sesjaPlik.path.length);
+    // console.log(id);
+    // console.log(odpowiedzi); //!AN ARRAY OF ANSWERS
+    res.send(odpowiedzi);
     //! RENDERING A PAGE WITH THE CODE WITH ARRAY
   });
 });
