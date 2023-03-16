@@ -10,7 +10,35 @@
 </head>
 <body>
     <h2>Skrypt1</h2>
-    <code></code>
+    <code>function pytanie(numer, tresc) {
+    this.numer = numer;
+    this.tresc = tresc;
+
+  }
+
+
+const pytania = document.querySelectorAll(".trescE")    
+
+
+const array = [];
+var x = 0;
+for(var i=0; i < pytania.length; i++){
+    const tekst = pytania[i].innerText;
+    const numer = tekst.substring(0,  tekst.indexOf("."));
+    const tresc = tekst.substring( tekst.indexOf(".")+2, tekst.length);
+
+
+    const newPytanie = new pytanie(numer,tresc);
+    array.push(newPytanie);
+}
+
+var data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(array));
+
+var a = document.createElement('a');
+a.href = 'data:' + data;
+a.download = 'sesja.json';
+
+a.click()</code>
     <form action="/inf03/upload" method="POST"  enctype="multipart/form-data">
         <label for="sesja-input">
             Umieść tu plik
