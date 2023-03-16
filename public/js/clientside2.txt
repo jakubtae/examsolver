@@ -1,0 +1,17 @@
+var odpowiedzi = [];
+var SesjaOdpowiedzi = document.getElementsByClassName("odpowiedzE")
+
+for(var i=0;i< SesjaOdpowiedzi.length;i++){
+    const poprawa = SesjaOdpowiedzi[i].innerText.slice(4,SesjaOdpowiedzi[i].innerText.lenght);
+    for(var x=0;x < odpowiedzi.length;x++){
+    if(poprawa === odpowiedzi[x]){
+        const parent = SesjaOdpowiedzi[i];
+        parent.querySelector("input").checked = true;
+        parent.classList.toggle("odpowiedzEzazn")
+    }
+    else{
+        //! TODO: if odpowiedzi[x] is false alert a question IF TO LEAVE THOSE UNMARKED OR IF TO SELECT A RANDOM ONE
+         console.log(":")
+    }
+    }
+}

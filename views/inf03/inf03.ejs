@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/master.css">
+    <link rel="stylesheet" href="css/inf03.css">
+    <title>Document</title>
+</head>
+<body>
+    <form action="/inf03/upload" method="POST"  enctype="multipart/form-data">
+        <label for="sesja-input">
+            Umieść tu plik
+            <input type="file" id="sesja-input" name="sesjaFile" accept=".json">
+        </label>
+        <input type="submit" value="WYGENERUJ">
+    </form>
+    <pre><code id="target">Result coming in...</code></pre>
+</body>
+</html>

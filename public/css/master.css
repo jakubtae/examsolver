@@ -1,0 +1,12 @@
+body{
+
+}
+
+a{
+    display: inline-block;
+    border-radius: 12px;
+    padding: 5px;
+    background-color: rgba(255, 250, 250, 0.865);
+    text-decoration: none;
+    color: blue;
+}
