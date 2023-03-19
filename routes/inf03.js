@@ -1,22 +1,19 @@
 const express = require("express");
 const router = express.Router();
+const cors = require("cors");
+var fs = require("fs");
+
+router.use(cors({
+  origin: "https://egzamin-informatyk.pl"
+}));
 
 router.get("/", (req, res) => {
   res.render("inf03/inf03.ejs");
 });
 
-router.post("/upload", (req, res) => {
-  var multiparty = require("multiparty");
-  var form = new multiparty.Form();
-  var fs = require("fs");
-  form.parse(req, function (err, fields, files) {
-    //! GETTING THE UPLOADED FILE [SESSION] AS AN ARRAY OF OBJECTS
-    var sesjaPlik = files.sesjaFile[0];
-
-    var fileString = fs.readFileSync(sesjaPlik.path).toString();
-
-    var sesja = JSON.parse(fileString);
-
+router.post('/solve', (req, res) => {
+    var sesja = req.body.sesja;
+    console.log(sesja);
     //! GETTING THE ALL QUESTIONS FILE AS AN ARRAY OF OBJECTS
     var fileString2 = fs.readFileSync("data.json").toString();
 
@@ -56,12 +53,8 @@ router.post("/upload", (req, res) => {
         odpowiedzi.push(false);
       }
     }
-    // * END OF FIRST FOR LOOP
-    console.log(odpowiedzi);
-    res.render("inf03/inf03.ejs", {odpowiedzi : odpowiedzi});
-    //! RENDERING A PAGE WITH THE CODE WITH ARRAY
-  });
-});
+  res.send(odpowiedzi);
+})
 
 
 module.exports = router;

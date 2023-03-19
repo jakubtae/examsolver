@@ -11,41 +11,30 @@
   <body>
     <h2>Skrypt1</h2>
     <code>
-      function pytanie(numer, tresc) { this.numer = numer; this.tresc = tresc;
-      }; const pytania = document.querySelectorAll(".trescE") ; const array =
-      []; var x = 0; for(var i=0; i < pytania.length; i++){ const tekst =
-      pytania[i].innerText; const numer = tekst.substring(0,
-      tekst.indexOf(".")); const tresc = tekst.substring( tekst.indexOf(".")+2,
-      tekst.length); const newPytanie = new pytanie(numer,tresc);
-      array.push(newPytanie); } var data = "text/json;charset=utf-8," +
-      encodeURIComponent(JSON.stringify(array)); var a =
-      document.createElement('a'); a.href = 'data:' + data; a.download =
-      'sesja.json'; a.click()
-    </code>
-    <form action="/inf03/upload" method="POST" enctype="multipart/form-data">
-      <label for="sesja-input">
-        Umieść tu plik
-        <input type="file" id="sesja-input" name="sesjaFile" accept=".json" />
-      </label>
-      <input type="submit" value="WYGENERUJ" />
-    </form>
-    <pre><code id="target">Result coming in...</code></pre>
-    <h2>Skrypt 2</h2>
-
-    <code>
-      var odpowiedzi = [     
-      <% if(locals.odpowiedzi != null){%>
-        <% for(var i = 0; i < locals.odpowiedzi.length; i++){ %>
-          <%= "'"+odpowiedzi[i]+"'," %>
-        <% } %>
-      <%} %> ]; var SesjaOdpowiedzi =
-      document.getElementsByClassName("odpowiedzE"); for(var i=0;i<
-      SesjaOdpowiedzi.length;i++){ const poprawa =
-      SesjaOdpowiedzi[i].innerText.slice(4,SesjaOdpowiedzi[i].innerText.lenght);
-      for(var x=0;x < odpowiedzi.length;x++){ if(poprawa === odpowiedzi[x]){
-      const parent = SesjaOdpowiedzi[i]; parent.querySelector("input").checked =
-      true; parent.classList.toggle("odpowiedzEzazn") } else{ console.log(":(");
-      }; } }</code
-    >
+    
+      function pytanie(numer, tresc) {
+        this.numer = numer;
+        this.tresc = tresc;
+      }
+      const pytania = document.querySelectorAll(".trescE");
+      const array = [];
+      var x = 0;
+      for (var i = 0; i < pytania.length; i++) {
+        const tekst = pytania[i].innerText;
+        const numer = tekst.substring(0, tekst.indexOf("."));
+        const tresc = tekst.substring(tekst.indexOf(".") + 2, tekst.length);
+        const newPytanie = new pytanie(numer, tresc);
+        array.push(newPytanie);
+      }
+      var xj = new XMLHttpRequest();
+      xj.open("POST", "http://localhost:3000/inf03/solve", true);
+      xj.setRequestHeader("Content-Type", "application/json");
+      xj.send(JSON.stringify({ sesja: array }));
+      xj.onreadystatechange = function () {
+        if (xj.readyState == 4) {
+          var odpowiedzi = JSON.parse(xj.responseText);
+          var SesjaOdpowiedzi = document.getElementsByClassName("odpowiedzE"); for(var i=0;i< SesjaOdpowiedzi.length;i++){ const poprawa = SesjaOdpowiedzi[i].innerText.slice(4,SesjaOdpowiedzi[i].innerText.lenght); for(var x=0;x < odpowiedzi.length;x++){ if(poprawa === odpowiedzi[x]){ const parent = SesjaOdpowiedzi[i]; parent.querySelector("input").checked = true; parent.classList.toggle("odpowiedzEzazn") } else{ console.log(":("); }; } }
+        }
+      };</code>
   </body>
 </html>
