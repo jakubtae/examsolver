@@ -1,0 +1,77 @@
+.container{
+    justify-content: center;
+}
+.field{
+    position: relative;
+    width: 530px;
+    height: 64px;
+}
+
+.field button{
+    position: absolute;
+    right: -50px;
+    top: 5px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    font-size: 40px;
+    cursor: pointer;
+    color: var(--color-second);
+}
+pre{
+    width: 500px;
+    height: 64px;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    font-size: 25px;
+    background-color: var(--color-second);
+    color: var(--color-main);
+    text-overflow: clip;
+    overflow-x: scroll;
+}
+.unshow{
+    visibility: hidden;
+    color: #fff;
+}
+.show{
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2s;
+    animation: fadein 0.5s, fadeout 0.5s 2s;
+}
+
+@-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+  }
+  
+  @keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+  }
+  
+  @-webkit-keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+  }
+  
+  @keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+  }
+
+.instruction{
+    font-weight: 500;
+    margin-bottom: 30px;
+}
+
+.instruction a{
+    color: var(--color-second);
+}
+
+.instruction span{
+    background-color: var(--color-second);
+    color: var(--color-main);
+    padding: 3px;
+    text-transform: uppercase;
+}

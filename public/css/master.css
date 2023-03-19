@@ -1,12 +1,90 @@
-body{
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;900&display=swap');
 
+:root {
+  --color-main: #333;
+  --color-second: #ddd;
+}
+body {
+  background: var(--color-main);
+  color: var(--color-second);
+  font-family: "Montserrat", sans-serif;
+  overflow: hidden;
 }
 
-a{
-    display: inline-block;
-    border-radius: 12px;
-    padding: 5px;
-    background-color: rgba(255, 250, 250, 0.865);
+h1 {
+  letter-spacing: 4px;
+  text-align: center;
+  font-size: 50px;
+}
+
+.container {
+  width: 100%;
+  height: 50vh;
+  display: flex;
+  justify-content: space-around;
+}
+
+.tile {
+  aspect-ratio: 16/10;
+  background: var(--color-second);
+  background-repeat: no-repeat;
+  position: relative;
+  background-position: center;
+  transition: background-position-y 1000ms ease-in-out;
+}
+
+.tile:hover{
+  background-position-y: -10px;
+  border: 1px solid var(--color-second);
+}
+.tile a {
+  text-decoration: none;
+  font-size: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+#inf02{
+    background-image: url(/img/inf02.jpg);
+}
+
+#inf02 a{
+  color: var(--color-main);
+}
+
+#inf02 > a > span{
+  background: var(--color-second);
+}
+
+#inf03{
+    background-image: url(/img/inf03.jpeg);
+}
+
+#inf03 a{
+  color: var(--color-second);
+}
+
+#inf03 > a > span{
+  background: var(--color-main);
+}
+
+
+footer{
+    position: absolute;
+    bottom: 0;
+    width: 100vw;
+    text-align: center;
+    color: var(--color-second);
+}
+
+footer a{
+    color: var(--color-second);
     text-decoration: none;
-    color: blue;
+    font-size: 26px;
+}
+
+footer a:hover{
+  text-decoration: underline;
 }

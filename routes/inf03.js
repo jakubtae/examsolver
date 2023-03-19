@@ -13,7 +13,6 @@ router.get("/", (req, res) => {
 
 router.post('/solve', (req, res) => {
     var sesja = req.body.sesja;
-    console.log(sesja);
     //! GETTING THE ALL QUESTIONS FILE AS AN ARRAY OF OBJECTS
     var fileString2 = fs.readFileSync("data.json").toString();
 
