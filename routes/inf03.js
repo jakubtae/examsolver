@@ -20,9 +20,7 @@ router.post("/upload", (req, res) => {
     //! GETTING THE ALL QUESTIONS FILE AS AN ARRAY OF OBJECTS
     var fileString2 = fs.readFileSync("data.json").toString();
 
-    var fileObj = JSON.parse(fileString2);
-
-    var wszystkie = fileObj.gotowce;
+    var wszystkie = JSON.parse(fileString2);
 
     //! Declaring check var so it has global scope
     var check;
