@@ -12,25 +12,33 @@
 </head>
 
   <body>
-    <h1>EGZAMIN INF03</h1>
-    <div class="container">
-      <div class="instrukcja">
+    <nav>
+      <a href="/inf02">inf02</a>
+      <a href="/home">Home</a>
+      <a href="/inf03">inf03</a>
+    </nav>
+    <div class="hero" id="hero-inf03">
+      <h1>EXAM SOLVER - INF03</h1>
+      <h2>Darmowa wersja do 26 marca</h2>
+    </div>
+    <main class="content">
         <div class="instruction">
-          1. Otwórz stronę <a href="https://egzamin-informatyk.pl/testy-inf03-ee09-programowanie-bazy-danych/" target="_blank">https://egzamin-informatyk.pl/testy-inf03-ee09-programowanie-bazy-danych/</a> w przeglądarce Google Chrome
+          1. Otwórz stronę <a href="https://egzamin-informatyk.pl/testy-inf03-ee09-programowanie-bazy-danych/"
+            target="_blank">https://egzamin-informatyk.pl/testy-inf03-ee09-programowanie-bazy-danych/</a> w przeglądarce
+          Google Chrome
         </div>
         <div class="instruction">
           2. Użyj skrótu klawiszowego <span>ctrl</span> + <span>shift</span> + <span>i</span>
         </div>
         <div class="instruction">
-          3. Wklej w zakładce KONSOLA poniższy kod
+          3. Skopiuj za pomocą przycisku a następnie wklej w zakładce KONSOLA poniższy kod
         </div>
         <div class="field">
-          <pre>function pytanie(numer, tresc) {this.numer = numer;this.tresc = tresc;} const pytania = document.querySelectorAll(".trescE"); const array = []; var x = 0; for (var i = 0; i < pytania.length; i++) { const tekst = pytania[i].innerText; const numer = tekst.substring(0, tekst.indexOf(".")); const tresc = tekst.substring(tekst.indexOf(".") + 2, tekst.length); const newPytanie = new pytanie(numer, tresc); array.push(newPytanie); } var xj = new XMLHttpRequest(); xj.open("POST", "http://localhost:3000/inf03/solve", true); xj.setRequestHeader("Content-Type", "application/json"); xj.send(JSON.stringify({ sesja: array })); xj.onreadystatechange = function () { if (xj.readyState == 4) { var odpowiedzi = JSON.parse(xj.responseText); var SesjaOdpowiedzi = document.getElementsByClassName("odpowiedzE"); for(var i=0;i< SesjaOdpowiedzi.length;i++){ const poprawa = SesjaOdpowiedzi[i].innerText.slice(4,SesjaOdpowiedzi[i].innerText.lenght); for(var x=0;x < odpowiedzi.length;x++){ if(poprawa === odpowiedzi[x]){ const parent = SesjaOdpowiedzi[i]; parent.querySelector("input").checked = true; parent.classList.toggle("odpowiedzEzazn") } else{ console.log(":("); }; } } }};</pre>
-            <button type="button" onclick="copyCat()" class="icon-clipboard"></button>
-            <span id="message" class="unshow">Tekst skopiowany!</span>
+          <pre>function pytanie(numer, tresc) {this.numer = numer;this.tresc = tresc;} const pytania = document.querySelectorAll(".trescE"); const array = []; var x = 0; for (var i = 0; i < pytania.length; i++) { const tekst = pytania[i].innerText; const numer = tekst.substring(0, tekst.indexOf(".")); const tresc = tekst.substring(tekst.indexOf(".") + 2, tekst.length); const newPytanie = new pytanie(numer, tresc); array.push(newPytanie); } var xj = new XMLHttpRequest(); xj.open("POST", "https://exam-finisher-inf03.onrender.com/inf03/solve", true); xj.setRequestHeader("Content-Type", "application/json"); xj.send(JSON.stringify({ sesja: array })); xj.onreadystatechange = function () { if (xj.readyState == 4) { var odpowiedzi = JSON.parse(xj.responseText); var SesjaOdpowiedzi = document.getElementsByClassName("odpowiedzE"); for(var i=0;i< SesjaOdpowiedzi.length;i++){ const poprawa = SesjaOdpowiedzi[i].innerText.slice(4,SesjaOdpowiedzi[i].innerText.lenght); for(var x=0;x < odpowiedzi.length;x++){ if(poprawa === odpowiedzi[x]){ const parent = SesjaOdpowiedzi[i]; parent.querySelector("input").checked = true; parent.classList.toggle("odpowiedzEzazn") } else{ console.log(":("); }; } } }};</pre>
+          <button type="button" onclick="copyCat()" class="icon-clipboard"></button>
+          <span id="message" class="unshow">Tekst skopiowany!</span>
         </div>
-      </div>
-    </div>
+    </main>
   </body>
   <script defer>
     function copyCat(){
