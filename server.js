@@ -13,9 +13,11 @@ app.use(bodyParser.urlencoded({ limit: "10mB", extended: false })); //! for FORM
 
 const adminRouter = require("./routes/admin");
 const inf03Router = require("./routes/inf03");
+const inf02Router = require("./routes/inf02");
 const homeRouter = require("./routes/home");
 app.use("/admin", adminRouter);
 app.use("/inf03", inf03Router);
+app.use("/inf02", inf02Router);
 app.use("/home", homeRouter);
 
 

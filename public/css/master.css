@@ -77,6 +77,16 @@ nav a:hover{
   /* your image */
   url(/img/inf03.jpg);
 }
+.hero#hero-inf02{
+  background-image: 
+  /* top, transparent red */
+  linear-gradient(
+    rgba(0, 0, 0, 0.4), 
+    rgba(0, 0, 0, 0.4)
+  ),
+  /* your image */
+  url(/img/inf02.jpg);
+}
 h1, h2{
   text-align: center;
   font-weight: 400;
