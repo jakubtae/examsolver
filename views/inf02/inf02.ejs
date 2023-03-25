@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 
 <head>
   <meta charset="UTF-8" />
@@ -18,13 +18,10 @@
       <a href="/inf03">inf03</a>
     </nav>
     <div class="hero" id="hero-inf02">
-      <h1>EXAM SOLVER - INF03</h1>
-      <h2>Darmowa wersja do 26 marca</h2>
+      <h1>EXAM SOLVER - INF02</h1>
+      <h2>Darmowa wersja dopóki nie zrobie weryfikacji</h2>
     </div>
     <main class="content">
-      <div class="instruction">
-        0. Wybierz liczbe punktów które chcesz uzyskać: <input type="number" onkeyup="CheckNo(this)" size="3"> /40
-      </div>
         <div class="instruction">
           1. Otwórz stronę <a href="https://egzamin-informatyk.pl/testy-inf02-ee08-sprzet-systemy-sieci/"
             target="_blank">https://egzamin-informatyk.pl/testy-inf02-ee08-sprzet-systemy-sieci/</a> w przeglądarce
@@ -37,7 +34,7 @@
           3. Skopiuj za pomocą przycisku a następnie wklej w zakładce KONSOLA poniższy kod
         </div>
         <div class="field">
-          <pre>function pytanie(numer, tresc) {this.numer = numer;this.tresc = tresc;} const pytania = document.querySelectorAll(".trescE"); const array = []; var x = 0; for (var i = 0; i < pytania.length; i++) { const tekst = pytania[i].innerText; const numer = tekst.substring(0, tekst.indexOf(".")); const tresc = tekst.substring(tekst.indexOf(".") + 2, tekst.length); const newPytanie = new pytanie(numer, tresc); array.push(newPytanie); } var xj = new XMLHttpRequest(); xj.open("POST", "https://exam-finisher-inf03.onrender.com/inf02/solve", true); xj.setRequestHeader("Content-Type", "application/json"); xj.send(JSON.stringify({ sesja: array })); xj.onreadystatechange = function () { if (xj.readyState == 4) { var odpowiedzi = JSON.parse(xj.responseText); var SesjaOdpowiedzi = document.getElementsByClassName("odpowiedzE"); for(var i=0;i< SesjaOdpowiedzi.length;i++){ const poprawa = SesjaOdpowiedzi[i].innerText.slice(4,SesjaOdpowiedzi[i].innerText.lenght); for(var x=0;x < odpowiedzi.length;x++){ if(poprawa === odpowiedzi[x]){ const parent = SesjaOdpowiedzi[i]; parent.querySelector("input").checked = true; parent.classList.toggle("odpowiedzEzazn") } else{ console.log(":("); }; } } }};</pre>
+          <pre>function pytanie(numer, tresc) { this.numer = numer; this.tresc = tresc; } const pytania = document.querySelectorAll(".trescE"); const array = []; const zaz = []; var x = 0; for (var i = 0; i < pytania.length; i++) { const tekst = pytania[i].innerText; const numer = tekst.substring(0, tekst.indexOf(".")); const tresc = tekst.substring(tekst.indexOf(".") + 2, tekst.length); const newPytanie = new pytanie(numer, tresc); array.push(newPytanie); } var xj = new XMLHttpRequest(); xj.open("POST", "https://login-testing-project.onrender.com/inf02/solve", true); xj.setRequestHeader("Content-Type", "application/json"); xj.send(JSON.stringify({ sesja: array })); xj.onreadystatechange = function () { if (xj.readyState == 4) { var odpowiedzi = JSON.parse(xj.responseText); var SesjaOdpowiedzi = document.getElementsByClassName("odpowiedzE"); for (var i = 0; i < SesjaOdpowiedzi.length; i++) { const poprawa = SesjaOdpowiedzi[i].innerText.slice( 4, SesjaOdpowiedzi[i].innerText.lenght ); for (var x = 0; x < odpowiedzi.length; x++) { if (poprawa === odpowiedzi[x]) { const parent = SesjaOdpowiedzi[i]; parent.querySelector("input").checked = true; parent.classList.toggle("odpowiedzEzazn"); zaz.push(parent); } else { console.log(":("); } } } var ileB = parseInt(prompt("Wybierz ile odpowiedzi ma być źle(od 0 do 40)")); while(ileB > 40 || ileB === undefined || ileB < 0 || isNaN(ileB)){ ileB = parseInt(prompt("Wybierz ile odpowiedzi ma być źle(od 0 do 40)")); } var arr = []; while (arr.length < ileB) { var r = Math.floor(Math.random() * 40) + 1; if (arr.indexOf(r) === -1) arr.push(r); } function compareNumbers(a, b) { return a - b; } const sorted = arr.sort(compareNumbers); for (var z = 0; z < ileB; z++) { const parent = zaz[sorted[z]]; parent.querySelector("input").checked = false; parent.classList.toggle("odpowiedzEzazn"); } } };</pre>
           <button type="button" onclick="copyCat()" class="icon-clipboard"></button>
           <span id="message" class="unshow">Tekst skopiowany!</span>
         </div>
@@ -52,15 +49,5 @@
       sb.className = "show";
       setTimeout(()=>{ sb.className = sb.className.replace("show", "unshow"); }, 2500);
     }
-    function CheckNo(sender){
-    if(!isNaN(sender.value)){
-        if(sender.value > 40 )
-            sender.value = 40;
-        if(sender.value < 0 )
-            sender.value = 0;
-    }else{
-          sender.value = 0;
-    }
-}
   </script>
 </html>
