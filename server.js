@@ -1,8 +1,12 @@
+if(process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
+
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
-
+const db = require('./models/conn.js');
 app.use(cors());
 
 app.set("view engine", "ejs");
