@@ -2,3 +2,4 @@ node_modules
 ideas
 .env
 request.rest
+package-lock.json
