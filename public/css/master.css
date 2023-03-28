@@ -174,3 +174,103 @@ footer a{
 footer a:hover{
 text-decoration: underline;
 }
+dialog[open]{
+  background: var(--second-color);
+  padding: 50px;
+  aspect-ratio: 5/3;
+  width: 50%;
+  overflow: hidden;
+}
+.card{
+  background: rgb(131,58,180);
+  background: linear-gradient(-30deg, rgb(233, 52, 184) 0%, rgb(233, 44, 179) 23%, rgba(253,29,29,1) 50%, rgba(252,155,51,1) 78%, rgba(252,176,69,1) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(100%);
+  height: 100%;
+  position: relative;
+  border: 1px yellow solid;
+}
+
+.info{
+  background: var(--second-color);
+  padding: 50px;
+  aspect-ratio: 16/4;
+  width: 100%;
+  overflow: hidden;
+}
+
+.info > .card{
+  width: calc(100% - 100px);
+  margin-bottom: 10px;
+}
+
+
+dialog[open] #close-button{
+  position: absolute;
+  right: 0;
+  top: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 40px;
+  color: var(--main-color);
+  cursor: pointer;
+}
+
+dialog[open] #close-button:hover{
+  background: var(--main-color);
+  color: var(--second-color);
+}
+.card > h2{
+  font-weight: 900;
+  font-size: 4em;
+  text-transform: uppercase;
+  color: var(--second-color);
+  letter-spacing: 4px;
+}
+
+.card > .img-holder{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.card .key{
+  width: 150px;
+}
+
+.card .key:nth-child(1){
+  position: relative;
+  left: 100px;
+}
+
+.card .key:nth-child(2){
+  position: relative;
+  right: 100px;
+}
+.card h3{
+  text-transform: uppercase;
+  font-size: 24px;
+  color: var(--second-color);
+}
+
+.card h4{
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  font-size: 100px;
+  margin: 0;
+  color: var(--second-color);
+}
+
+dialog[open] > a{
+  font-size: 14px;
+  color: var(--main-color);
+}
+
+.info > a{
+  font-size: 14px;
+  color: var(--main-color);
+  text-align: center;
+}
