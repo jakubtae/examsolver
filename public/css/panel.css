@@ -1,0 +1,86 @@
+.content{
+    flex-direction: column;
+}
+
+h3{
+    font-size: 36px;
+}
+
+table, tr , td , th{
+    border: 1px solid var(--main-color);
+    border-collapse: collapse;
+    padding: 30px;
+    text-align: center;
+    transition: 100ms all;
+}
+
+td:hover, th:hover{
+    background: var(--main-color);
+    color: var(--second-color);
+}
+.users{
+    margin-bottom: 160px;
+}
+.user-list{
+    margin-bottom: 50px;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border: 1px solid var(--main-color);
+    padding: 25px;
+}
+
+label{
+    text-align: center;
+    font-size: 22px;
+    font-weight: 500;
+}
+
+.option{
+    padding: 15px;
+    border: 1px solid var(--main-color);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+select{
+    font-size: 20px;
+    padding: 4px;
+    cursor: pointer;
+}
+
+input.normal{
+    font-size: 20px;
+    padding: 6px;
+    text-align: center;
+}
+input[type="submit"]{
+    background: transparent;
+    color: var(--main-color);
+    cursor: pointer;
+    font-size: 20px;
+}
+
+input[type="submit"]:hover{
+    background-color: var(--main-color);
+    color: var(--second-color);
+}
+
+td > form{
+    padding: 0 !important;
+}
+.submit-approve{
+    display: block;
+    border: 0 !important;
+    padding: 10px !important;
+    background-color: var(--second-color) !important;
+    color: var(--main-color) !important;
+}
+
+td:hover > .submit-approve,td:hover > form{
+    background-color: var(--second-color) !important;
+    color: var(--main-color) !important;
+}

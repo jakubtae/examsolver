@@ -1,17 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="css/master.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/fontello-6f9a9685/css/fontello.css">
+    <title>Admin login</title>
 </head>
 <body>
     <form action="/admin" method="post">
-        <input type="text" name="uname">
-        <input type="password" name="password">
-        <input type="submit">
+        <h1>LOGIN</h1>
+        <div class="input_container">
+            <input type="text" class="form_input" id="uname" name="uname" placeholder=" " required>
+            <label for="uname">username</label>
+        </div>
+        <div class="input_container">
+            <input type="password" class="form_input" id="pass" name="password" placeholder=" " required>
+            <label for="pass">password</label>
+        </div>
+        <button type="submit">
+            <i class="icon-triangle"></i>
+        </button>
     </form>
 </body>
 </html>

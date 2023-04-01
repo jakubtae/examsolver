@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap');
+
+:root{
+    --main-color: #fff;
+    --second-color: #000;
+  }
+
+body,html{
+    height: 90%;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--main-color);
+}
+
+form{
+    width: clamp(200px,20vw,1000px);
+    border: 1px solid var(--second-color);
+    font-weight: 500;
+    position: relative;
+    padding: 25px 0 50px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px
+}
+
+h1{
+    padding: 0;
+    margin: 0;
+    font-weight: 400;
+    font-size: 32px;
+    text-align: center;
+    color: var(--second-color);
+}
+
+button[type="submit"]{
+    position: absolute;
+    right: -20px;
+    bottom: -20px;
+    width: 50px;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    border: 1px solid var(--second-color);
+    background-color: var(--main-color);
+    cursor: pointer;
+}
+
+.icon-triangle{
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 1px;
+    -webkit-text-stroke-color: var(--second-color);
+    font-size: 26px;
+    position: relative;
+    left: 4px;
+}
+
+button[type="submit"]:hover > .icon-triangle{
+    -webkit-text-fill-color: #5CDBE3;
+}
+
+.input_container{
+    /* border: 1px solid var(--second-color); */
+    width: 90%;
+    height: 34px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.input_container > label{
+    position: absolute;
+    left: 5px;
+    pointer-events: none;
+    color: lightslategray;
+    transition: 500ms all ease-in-out;
+}
+
+.input_container > .form_input{
+    width: 100%;
+    height: 34px;
+    font-family: 'Inter', sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    border: 1px solid var(--second-color);
+    background-color: transparent;
+    color: var(--second-color);
+    outline: none;
+}
+
+
+.input_container > .form_input:hover ~ label, .input_container > .form_input:not(:placeholder-shown) ~ label{
+    transform: translateX(-130px);
+}

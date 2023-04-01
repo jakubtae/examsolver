@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/master.css" />
+    <link rel="stylesheet" href="../css/panel.css" />
+    <link rel="stylesheet" href="../../css/panel.css" />
+    <title>Admin Panel</title>
+  </head>
+
+  <body>
+    <%- include('../../includes/nav.ejs') %>
+
+    <div class="hero" id="hero-admin">
+      <h1>EXAM SOLVER - ADMIN</h1>
+      <h2>Darmowa wersja do końca marca</h2>
+    </div>
+    <main class="content">
+      <div class="users" id="list">
+        <h3>USER LIST</h3>
+        <table class="user-list">
+          <tr>
+            <th>EMAIL</th>
+            <th>CREDIT</th>
+            <th>USED</th>
+          </tr>
+          <% var i = 1 %> <% allusers.forEach(users =>{ %>
+          <tr id="<%= i %>">
+            <td><%= users.email%></td>
+            <td><%= users.credit%></td>
+            <td><%= users.used%></td>
+          </tr>
+          <% i++; %> <% })%>
+        </table>
+      </div>
+      <div class="users" id="waitlist">
+        <h3>USER WAIT LIST</h3>
+        <table class="user-waitlist">
+          <tr>
+            <th>EMAIL</th>
+            <th>CREDIT</th>
+            <th>PRICE</th>
+          </tr>
+          <% var z = 1 %> <% allwaitlist.forEach(waitList =>{ %>
+          <tr id="<%= z %>">
+            <td><%= waitList.email%></td>
+            <td><%= waitList.credit%></td>
+            <td><%= waitList.price%> zł</td>
+            <td>
+              <form action="/admin/approve/" method="POST">
+                <input
+                  type="hidden"
+                  name="gemail"
+                  value="<%= waitList.email %>"
+                /><input
+                  type="submit"
+                  class="submit-approve"
+                  value="ZATWIERDŹ"
+                />
+              </form>
+            </td>
+          </tr>
+          <% z++; %> <% })%>
+        </table>
+      </div>
+      <div class="users" id="edit">
+        <h3>EDIT USERS</h3>
+        <form action="/admin/panel/update" method="POST">
+          <div class="option">
+            <label for="who">WHO</label>
+            <select name="who" id="who">
+              <% allusers.forEach(users =>{ %>
+              <option><%= users.email %></option>
+              <% })%>
+            </select>
+          </div>
+          <div class="option">
+            <label for="what">WHAT</label>
+            <select name="what" id="what" onchange="changeInput();">
+              <option>EMAIL</option>
+              <option>PASSWORD</option>
+              <option>CREDIT</option>
+            </select>
+          </div>
+          <div class="option">
+            <label for="nevalue">NEW VALUE</label>
+            <input type="email" name="newvalue" class="normal" id="newvalue" />
+          </div>
+          <input type="submit" value="SUBMIT" />
+        </form>
+        <% if (locals.message) { %>
+        <h4><%= message %></h4>
+        <% } %>
+      </div>
+      <div class="users" id="create">
+        <h3>CREATE USERS</h3>
+        <form action="/admin/panel/create" method="POST">
+          <div class="option">
+            <label for="email">EMAIL</label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              class="normal"
+              required
+            />
+          </div>
+          <div class="option">
+            <label for="password">PASSWORD</label>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              class="normal"
+              required
+            />
+          </div>
+          <div class="option">
+            <label for="credit">CREDIT</label>
+            <input
+              type="number"
+              name="credit"
+              id="credit"
+              class="normal"
+              required
+            />
+          </div>
+          <input type="submit" value="SUBMIT" />
+        </form>
+      </div>
+      <div class="users" id="delete">
+        <h3>DELETE USERS</h3>
+        <form action="/admin/panel/delete" method="POST">
+          <select name="todelete">
+            <% allusers.forEach(users =>{ %>
+            <option><%= users.email %></option>
+            <% })%>
+          </select>
+          <input type="submit" value="SUBMIT" />
+        </form>
+      </div>
+    </main>
+    <script defer>
+      function changeInput() {
+        const what = document.querySelector("#what");
+        const newvalue = document.querySelector("#newvalue");
+        if (what.value === "EMAIL") newvalue.type = "email";
+        if (what.value === "PASSWORD") newvalue.type = "password";
+        if (what.value === "CREDIT") newvalue.type = "number";
+      }
+    </script>
+  </body>
+</html>

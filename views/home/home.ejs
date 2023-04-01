@@ -11,11 +11,7 @@
 </head>
 
 <body>
-    <nav>
-        <a href="/inf02">inf02</a>
-        <a href="/home">Home</a>
-        <a href="/inf03">inf03</a>
-    </nav>
+    <%- include('../includes/nav.ejs') %>
     <div class="hero">
         <h1>EXAM SOLVER</h1>
         <h2>Darmowa wersja do końca marca</h2>
@@ -30,7 +26,8 @@
             <a href="/inf03" class="tile" id="inf03"></a>
         </div>
     </main>
-    <div class="info">
+    <!-- ! TAKI SAM JAK STARY DIALOG // JUŻ SFORMATOWANY -->
+    <!-- <div class="info">
         <div class="card">
             <h2>Tylko do 31 marca</h2>
             <div class="img-holder">
@@ -41,25 +38,17 @@
             <h4>TYLKO 50gr</h4>
         </div>
         <a href="mailto:inf.exams@gmail.com?subject=ExamSolver">Wpisz się na liste wysyłając swój adres email, hasło z jakiego będziesz korzystał, numer telefonu<br />oraz liczbe egzaminów które chcesz zakupić. <b>Promocja obowiązuje na maksymalnie 50 egzaminów</b></a>
-    </div>
-    <footer>
-        <a href="mailto:inf.exams@gmail.com?subject=ExamSolver"><i class="icon-mail"></i> kontakt do mnie</a>
-    </footer>
+    </div> -->
+    <%- include('../includes/footer.ejs') %>
+
     <script src="/js/home.js" defer></script>
     <dialog>
         <div class="card">
-            <h2>Tylko do 31 marca</h2>
-            <div class="img-holder">
-                <img src="img/noun-card.png" alt="card-image" class="key">
-                <img src="img/noun-card.png" alt="card-image" class="key">
-            </div>
-            <h3> Egzamin za połowe ceny</h3>
-            <h4>TYLKO 50gr</h4>
+            <h2>uwaga od 1 kwietnia wszystkie egzaminy są płatne. W celu rejestracji udaj się do zakładki user</h2>
             <form action="" method="dialog">
                 <button type="button" id="close-button">X</button>
             </form>
         </div>
-        <a href="mailto:inf.exams@gmail.com?subject=ExamSolver">Wpisz się na liste wysyłając swój adres email, hasło z jakiego będziesz korzystał, numer telefonu<br />oraz liczbe egzaminów które chcesz zakupić. <b>Promocja obowiązuje na maksymalnie 50 egzaminów</b></a>
     </dialog>
 </body>
 
