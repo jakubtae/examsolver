@@ -35,7 +35,7 @@ router.post('/add', async (req, res) => {
             if(err) return res.render('user/error.ejs');
             else{
                 var pattern = /[^0-9.-]+/g;
-                const cena = "0.50";
+                const cena = "0.40"; //! CENA ZA EGZAMINz
                 const koszt = parseFloat(cena.replace(pattern, '')) * credit;
                 //! PUSH USER INTO A WAITLIST COLLECTION
                 push(email,password,credit,koszt);
