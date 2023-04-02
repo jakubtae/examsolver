@@ -195,7 +195,7 @@ router.post("/backup", authenticateToken, async (req, res) => {
     auth: {
       xoauth2: xoauth2.createXOAuth2Generator({
         user: process.env.GMAIL_NAME, // Your gmail address.
-        pass:'ccisxdaqazvmofry',                                      // Not @developer.gserviceaccount.com
+        pass:process.env.GMAIL_PASSWORD,                                      // Not @developer.gserviceaccount.com
         clientId: process.env.CLIENT_ID,
         clientSecret: process.env.CLIENT_SECRET,
         refreshToken: process.env.REFRESH_TOKEN
