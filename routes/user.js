@@ -42,7 +42,7 @@ router.post('/add', async (req, res) => {
                 async function push(email,password,credit,koszt){
                     const push = await waitList.create({email: email, password: password, credit: credit, price: koszt});
                     if(!push) return res.render('user/error.ejs');
-                    res.render('user/succes.ejs', {message: koszt})
+                    return res.status(301).render('user/succes.ejs', {message: koszt})
                 }
             }
         });
