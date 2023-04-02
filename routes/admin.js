@@ -137,6 +137,24 @@ router.post("/approve",authenticateToken, async (req, res) => {
   }
 })
 
+router.post("/disapprove",authenticateToken, async (req, res) => {
+  try{
+    const email = req.body.gemail;
+    const check = await waitList.findOne({email: email});
+    if(!check) return res.sendStatus(500)
+    swap();
+    async function swap() {
+      const email = req.body.gemail;
+      const deleted = await waitList.deleteOne({email: email});
+      if(!deleted) return res.sendStatus(500);
+      res.redirect("/admin/panel");
+    }
+  } 
+  catch{
+    res.redirect("/admin/panel")
+  }
+})
+
 function authenticateToken(req, res, next) {
   const token = req.cookies.jwt;
   if (token == null) return res.sendStatus(401);
