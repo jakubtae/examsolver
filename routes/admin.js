@@ -10,14 +10,14 @@ const Admin = require("../models/mongoAdmin.js");
 const Users = require("../models/mongoUsers.js");
 const waitList = require("../models/mongoWaitList.js");
 const jwt = require("jsonwebtoken");
-
+const transporter = require("../models/gmail.js");
 //! EMAIL RELATED
-var nodemailer = require("nodemailer");
-var xoauth2 = require('xoauth2');
-var smtpTransport = require('nodemailer-smtp-transport');
+
 
 const cookieParser = require("cookie-parser");
 router.use(cookieParser());
+
+
 
 router.get("/", (req, res) => {
   res.render("admin/admin.ejs");
@@ -151,19 +151,58 @@ router.post("/approve", authenticateToken, async (req, res) => {
     const email = req.body.gemail;
     const check = await waitList.findOne({ email: email });
     if (!check) return res.sendStatus(500);
-    swap();
+    const dcheck = await Users.findOne({ email: email });
+    if(!dcheck){
+      swap();
+    }
+    else{
+      updateSwap();
+      async function updateSwap(){
+        const email = req.body.gemail;
+        const hashedPassword = await bcrypt.hash(check.password, 10);
+        if (!hashedPassword) return res.sendStatus(500);
+        const USdeleted = await Users.deleteOne({ email: email });
+        if(!USdeleted) return res.sendStatus(500);
+        const newUser = await Users.create({
+          email: check.email,
+          password: hashedPassword,
+          credit: check.credit,
+          used: 0,
+        });
+        if (!newUser) return res.sendStatus(500);
+        const WLdeleted = await waitList.deleteOne({ email: email });
+        if (!WLdeleted) return res.sendStatus(500);
+        res.redirect("/admin/panel");
+      }
+    }
     async function swap() {
       const email = req.body.gemail;
+      const hashedPassword = await bcrypt.hash(check.password, 10);
+      if (!hashedPassword) return res.sendStatus(500);
       const newUser = await Users.create({
         email: check.email,
-        password: check.password,
+        password: hashedPassword,
         credit: check.credit,
         used: 0,
       });
       if (!newUser) return res.sendStatus(500);
       const deleted = await waitList.deleteOne({ email: email });
       if (!deleted) return res.sendStatus(500);
-      res.redirect("/admin/panel");
+      var mailOptions = {
+        from: process.env.GMAIL_NAME,
+        to: check.email,
+        subject: "Twoje konto zostało aktywowane",
+        html: "<p>Od momentu przyjścia tej wiadomości możesz korzystać z usług strony. Masz <b> "+check.credit+" </b> kluczy </p>"
+      };
+    
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          res.send(error);
+        } else {
+          res.redirect("/admin/panel");
+        }
+      });
+
     }
   } catch {
     res.redirect("/admin/panel");
@@ -188,20 +227,6 @@ router.post("/disapprove", authenticateToken, async (req, res) => {
 });
 
 router.post("/backup", authenticateToken, async (req, res) => {
-  // console.log(process.env.GMAIL_NAME);
-  // console.log(process.env.GMAIL_PASSWORD);
-  var transporter = nodemailer.createTransport(smtpTransport({
-    service: "Gmail",
-    auth: {
-      xoauth2: xoauth2.createXOAuth2Generator({
-        user: process.env.GMAIL_NAME, // Your gmail address.
-        pass:process.env.GMAIL_PASSWORD,                                      // Not @developer.gserviceaccount.com
-        clientId: process.env.CLIENT_ID,
-        clientSecret: process.env.CLIENT_SECRET,
-        refreshToken: process.env.REFRESH_TOKEN
-      })
-    },
-  }));
   const allusers = await Users.find({});
   const allwaitList = await waitList.find({});
   const readyusers = JSON.stringify(allusers);

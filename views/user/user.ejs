@@ -20,7 +20,7 @@
     </div>
     <main>
         <div class="boxer">
-            <h3>SPRAWDŹ KLUCZE</h3>
+            <h3>SPRAWDŹ ILOŚĆ KLUCZY</h3>
             <form action="/user/check" method="POST">
                 <div class="input-container">
                     <label for="semail">EMAIL</label>
@@ -31,6 +31,18 @@
             <% if (locals.message) { %>
                 <h4>Zostało Ci  <%= message %> kluczy</h4>
             <% } %>
+            <h3>KUP KLUCZE</h3>
+            <form action="/user/buy" method="POST">
+                <div class="input-container">
+                    <label for="bemail">EMAIL</label>
+                    <input type="email" class="normal" required name="bemail" id="semail">
+                </div>
+                <div class="input-container">
+                    <label for="ikluczy">ILOŚĆ KLUCZY</label>
+                    <input type="number" class="normal" required name="ikluczy" id="ikluczy">
+                </div>
+                <input type="submit" value="KUP">
+            </form>
         </div>
         <div class="boxer">
             <h3>DODAJ SIĘ DO POCZEKALNI</h3>
