@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Exam solver - user</title>
-    <link rel="stylesheet" href="css/master.css" />
-    <link rel="stylesheet" href="css/user.css" />
+    <link rel="stylesheet" href="/css/master.css" />
+    <link rel="stylesheet" href="/css/user.css" />
     <link rel="stylesheet" href="../../../css/user.css" />
     <link rel="stylesheet" href="/css/fontello-46031a8a/css/fontello.css" />
 </head>
@@ -62,8 +62,16 @@
                 <input type="submit" value="DODAJ">
             </form>
             <% if (locals.message2) { %>
-                <h4>Do zapłaty <b> <%= message2 %> </b>blikiem na numer telefonu 532 083 973. W tytule przelewu napisz swój adres email</h4>
+                <h4>Do zapłaty <b> <%= message2 %> zł </b>blikiem na numer telefonu 532 083 973. W tytule przelewu napisz swój adres email</h4>
             <% } %>
+            <h3>ZAPOMNIAŁEŚ HASŁO?</h3>
+            <form action="/user/forgot" method="POST">
+                <div class="input-container">
+                    <label for="femail">EMAIL:</label>
+                    <input type="email" class="normal" required name="femail" id="femail">
+                </div>
+                <input type="submit" value="WYŚLIJ LINK Z RESETEM">
+            </form>
         </div>
     </main>
     <%- include('../includes/footer.ejs') %>

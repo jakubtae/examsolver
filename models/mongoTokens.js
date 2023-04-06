@@ -1,7 +1,16 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 const tokenSchema = new mongoose.Schema({
-    refreshToken: String
+    userId:{
+        type: Schema.Types.ObjectId,
+        required: true,
+        ref: "user"
+    },
+    code: {
+        type: String,
+        required: true,
+    }
 })
 
 

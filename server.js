@@ -10,11 +10,11 @@ const db = require('./models/conn.js');
 const cookieParser = require('cookie-parser');
 var path = require('path');
 app.use(cors());
+app.use(express.static(path.join(__dirname, "public"))); //! static folder declaration
 
 app.set("view engine", "ejs");
 app.use(cookieParser());
 app.set('views', path.join(__dirname, 'views'));
-app.use(express.static("public")); //! static folder declaration
 app.use(express.json())
 app.use(bodyParser.urlencoded({ limit: "10mB", extended: false })); //! for FORMS USAGE
 

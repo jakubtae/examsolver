@@ -1,7 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
+const crypto = require("crypto");
+
 const Users = require("../models/mongoUsers.js");
+const Tokens = require("../models/mongoTokens.js");
 const waitList = require("../models/mongoWaitList.js");
 const transporter = require("../models/gmail.js");
 
@@ -33,7 +36,7 @@ router.post("/add", async (req, res) => {
       if (err) return res.render("user/error.ejs");
       else {
         var pattern = /[^0-9.-]+/g;
-        const cena = "0.40"; //! CENA ZA EGZAMINz
+        const cena = "0.80"; //! CENA ZA EGZAMINz
         const koszt = parseFloat(cena.replace(pattern, "")) * credit;
         //! PUSH USER INTO A WAITLIST COLLECTION
         push(email, password, credit, koszt);
@@ -57,7 +60,7 @@ router.post("/add", async (req, res) => {
               if (error) {
                 res.send(error);
               } else {
-                return res.render("user/succes.ejs", { message: koszt });
+                return res.render("user/user.ejs", { message2: koszt });
               }
             });
           }
@@ -78,7 +81,6 @@ router.post("/buy", async (req, res) => {
     if (user === "false") return res.render("user/error.ejs");
     else{
         const newCredit = parseInt(user.credit) + parseInt(creditIncrease);
-        console.log(newCredit);
         const create = await waitList.create({email : email, password: user.password, credit: newCredit, used: user.used});
         if(!create) return res.render("user/error.ejs");
         var pattern = /[^0-9.-]+/g;
@@ -91,6 +93,102 @@ router.post("/buy", async (req, res) => {
   }
 });
 
+router.post("/forgot",async  (req,res) =>{
+  try{
+    const user = await Users.findOne({email: req.body.femail});
+    if(!user) return res.render("user/error.ejs");
+    var token = await Tokens.findOne({userID: user._id});
+    if(!token){
+      token = await new Tokens({
+        userId: user._id,
+        code: crypto.randomBytes(32).toString("hex"),
+      }).save();
+    }
+    const link = process.env.BASE_URL+"user/password-reset/"+ user._id +"/"+token.code;
+    var mailOptions = {
+      from: process.env.GMAIL_NAME,
+      to: req.body.femail,
+      subject: "Zmiana hasła",
+      html: "<a href="+link+">"+link+"</a>"
+    };
+  
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        res.send("Ups there was an error");
+        console.log(error);
+      } else {
+        return res.send("Email został wysłany")
+      }
+    });
+  }
+  catch(error){
+    res.send("Ups there was an error");
+    console.log(error);
+  }
+})
+
+router.get("/password-reset/:userId/:code", async (req, res) => {
+  try {
+    const user = await Users.findOne({_id : req.params.userId});
+    if (!user) return res.status(400).send("invalid link or expired");
+    const token = await Tokens.findOne({
+        userId: user._id,
+        code: req.params.code,
+    });
+    if (!token) return res.status(400).send("Invalid link or expired");
+      var link = req.protocol + '://' + req.get('host') + req.originalUrl;
+      res.render("user/reset.ejs", {link: req.originalUrl} );
+  } catch (error) {
+      res.send("An error occured");
+      console.log(error);
+  }
+});
+
+router.post("/password-reset/:userId/:code", async (req, res) => {
+  try {
+    const user = await Users.findOne({_id:req.params.userId});
+    if (!user) return res.status(400).send("invalid link or expired");
+    const token = await Tokens.findOne({
+        userId: user._id,
+        code: req.params.code,
+    });
+    if (!token) return res.status(400).send("Invalid link or expired");
+
+      const newPass = req.body.password;
+      console.log(newPass);
+    
+      bcrypt.hash(newPass, 10, (err, result) => {
+        if (err) return res.render("user/error.ejs");
+        else {
+          rewriteANDdelete();
+          async function rewriteANDdelete(){
+            user.password = result;
+            await user.save();
+            await Tokens.deleteOne({        userId: user._id,
+              code: req.params.code});
+      
+            res.send("password reset sucessfully.");
+          }
+        }
+      })
+  } catch (error) {
+      res.send("An error occured");
+      console.log(error);
+  }
+});
+
+
+function authenticateReset(req, res, next) {
+  user = Users.findById(req.params.userId);
+  if (!user) return res.status(400).send("invalid link or expired");
+
+  token = Tokens.findOne({
+      userId: user._id,
+      code: req.params.code,
+  });
+  if (!token) return res.status(400).send("Invalid link or expired");
+  else next();
+}
 
 
 module.exports = router;
