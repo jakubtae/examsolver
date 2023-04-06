@@ -1,23 +1,22 @@
-if(process.env.NODE_ENV !== 'production') {
-  require('dotenv').config();
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
 }
 
 const express = require("express");
 const router = express.Router();
 const db = require("../models/conn.js");
 const bcrypt = require("bcrypt");
+var fs = require("fs");
+
 const Admin = require("../models/mongoAdmin.js");
 const Users = require("../models/mongoUsers.js");
 const waitList = require("../models/mongoWaitList.js");
 const jwt = require("jsonwebtoken");
-const transporter = require("../models/gmail.js");
 //! EMAIL RELATED
-
+const transporter = require("../models/gmail.js");
 
 const cookieParser = require("cookie-parser");
 router.use(cookieParser());
-
-
 
 router.get("/", (req, res) => {
   res.render("admin/admin.ejs");
@@ -63,6 +62,7 @@ router.get("/panel", authenticateToken, async (req, res) => {
   try {
     const allusers = await Users.find({});
     const allwaitList = await waitList.find({});
+    //! READ ALL FILES IN ./backup dir put them in an array and pass it to render
     res.render("admin/panel/main.ejs", {
       allusers: allusers,
       allwaitlist: allwaitList,
@@ -152,17 +152,16 @@ router.post("/approve", authenticateToken, async (req, res) => {
     const check = await waitList.findOne({ email: email });
     if (!check) return res.sendStatus(500);
     const dcheck = await Users.findOne({ email: email });
-    if(!dcheck){
+    if (!dcheck) {
       swap();
-    }
-    else{
+    } else {
       updateSwap();
-      async function updateSwap(){
+      async function updateSwap() {
         const email = req.body.gemail;
         const hashedPassword = await bcrypt.hash(check.password, 10);
         if (!hashedPassword) return res.sendStatus(500);
         const USdeleted = await Users.deleteOne({ email: email });
-        if(!USdeleted) return res.sendStatus(500);
+        if (!USdeleted) return res.sendStatus(500);
         const newUser = await Users.create({
           email: check.email,
           password: hashedPassword,
@@ -192,9 +191,12 @@ router.post("/approve", authenticateToken, async (req, res) => {
         from: process.env.GMAIL_NAME,
         to: check.email,
         subject: "Twoje konto zostało aktywowane",
-        html: "<p>Od momentu przyjścia tej wiadomości możesz korzystać z usług strony. Masz <b> "+check.credit+" </b> kluczy </p>"
+        html:
+          "<p>Od momentu przyjścia tej wiadomości możesz korzystać z usług strony. Masz <b> " +
+          check.credit +
+          " </b> kluczy </p>",
       };
-    
+
       transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
           res.send(error);
@@ -202,7 +204,6 @@ router.post("/approve", authenticateToken, async (req, res) => {
           res.redirect("/admin/panel");
         }
       });
-
     }
   } catch {
     res.redirect("/admin/panel");
@@ -227,10 +228,15 @@ router.post("/disapprove", authenticateToken, async (req, res) => {
 });
 
 router.post("/backup", authenticateToken, async (req, res) => {
+  //! MODEL FOR BACKUP FILES STRUCTUER
+  function backup(allusers, allwaitList) {
+    this.users = allusers;
+    this.waitlist = allwaitList;
+  }
+
   const allusers = await Users.find({});
   const allwaitList = await waitList.find({});
-  const readyusers = JSON.stringify(allusers);
-  const readyList = JSON.stringify(allwaitList);
+  const newBackup = new backup(allusers, allwaitList);
   let date_ob = new Date();
   // current date
   // adjust 0 before single digit date
@@ -239,25 +245,24 @@ router.post("/backup", authenticateToken, async (req, res) => {
   let year = date_ob.getFullYear();
   let hours = date_ob.getHours();
   let minutes = date_ob.getMinutes();
-  // console.log("Backup from "+hours+":"+minutes+"  "+date+"/"+month+"/"+year+" ");
-  // console.log(readyusers);
-  // console.log(readyList);
+  var currDate = hours + ":" + minutes + "AT" + date + "." + month + "." + year;
+  const newFile = fs.writeFileSync(
+    "./backup/" + currDate + ".json",
+    JSON.stringify(newBackup)
+  );
 
-  var mailOptions = {
-    from: process.env.GMAIL_NAME,
-    to: process.env.GMAIL_NAME,
-    subject: "Backup from "+hours+":"+minutes+"  "+date+"/"+month+"/"+year+" ",
-    html: "ALL USERS JSON:"+readyusers + "<br/> WAITLIST USERS JSON:"+readyList
-  };
-
-  transporter.sendMail(mailOptions, function (error, info) {
-    if (error) {
-      res.send(error);
-    } else {
-      res.sendStatus(202);
-    }
-  });
+  if (newFile == "false") return res.send("ERROR I GUESS");
+  res.send("BACKUP HAS BEEN COMPLETED");
 });
+
+//! DO A BACKUP ROUTE THAT GETS A FILENAME FROM req.body.fname AND THEN GETS THIS FILE JSON AND SPLITS IT INTO 2 ARRAYS
+//! USER ARRAY AND WAITLIST ARRAY
+//! IF SUCCESFUL DELETE ALL DOCUMENTS IN users AND waitlists COLLECTION
+//! 2 FOR LOOP THAT INPUTS ALL THE DATA 
+//! OR JUST TWO INSERTMANY(user[]) and  INSERTMANY(waitlists[])
+// router.post("/doabackup", authenticateToken, async (req, res) => {
+
+// })
 
 function authenticateToken(req, res, next) {
   const token = req.cookies.jwt;
