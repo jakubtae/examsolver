@@ -4,9 +4,8 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../css/master.css" />
-    <link rel="stylesheet" href="../css/panel.css" />
-    <link rel="stylesheet" href="../../css/panel.css" />
+    <link rel="stylesheet" href="/css/master.css" />
+    <link rel="stylesheet" href="/css/panel.css" /> 
     <title>Admin Panel</title>
   </head>
 
@@ -163,6 +162,19 @@
         </form>
       </div>
       <!-- !FORM WITH /doabackup POST THAT HAS A SELECT WITH OPTIONS THAT REPRESENT AN ARRAY SEND FROM RENDER -->
+      <div class="users" id="doabackup">
+        <h3>DO A BACKUP</h3>
+        <form action="/admin/doabackup" method="POST">
+          <select name="which" id="which_backup">
+            <% files.forEach(file =>{ %>
+              <option><%= file %></option>
+              <% })%>
+          </select>
+          <% if(files[0] !== "Nie ma kopi zapasowych"){%>
+          <input type="submit" value="IMPORT A BACKUP">
+          <%}%>
+        </form>
+      </div>
     </main>
     <script defer>
       function changeInput() {

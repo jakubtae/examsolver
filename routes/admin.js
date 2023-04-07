@@ -7,6 +7,7 @@ const router = express.Router();
 const db = require("../models/conn.js");
 const bcrypt = require("bcrypt");
 var fs = require("fs");
+var glob = require("glob");
 
 const Admin = require("../models/mongoAdmin.js");
 const Users = require("../models/mongoUsers.js");
@@ -17,6 +18,8 @@ const transporter = require("../models/gmail.js");
 
 const cookieParser = require("cookie-parser");
 router.use(cookieParser());
+
+var files = [];
 
 router.get("/", (req, res) => {
   res.render("admin/admin.ejs");
@@ -58,7 +61,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get("/panel", authenticateToken, async (req, res) => {
+router.get("/panel", authenticateToken, checkDir, async (req, res) => {
   try {
     const allusers = await Users.find({});
     const allwaitList = await waitList.find({});
@@ -66,6 +69,7 @@ router.get("/panel", authenticateToken, async (req, res) => {
     res.render("admin/panel/main.ejs", {
       allusers: allusers,
       allwaitlist: allwaitList,
+      files : files,
     });
   } catch {
     res.redirect("/");
@@ -245,24 +249,37 @@ router.post("/backup", authenticateToken, async (req, res) => {
   let year = date_ob.getFullYear();
   let hours = date_ob.getHours();
   let minutes = date_ob.getMinutes();
-  var currDate = hours + ":" + minutes + "AT" + date + "." + month + "." + year;
+  var currDate = hours + ":" + minutes + "__" + date + "." + month + "." + year;
   const newFile = fs.writeFileSync(
     "./backup/" + currDate + ".json",
     JSON.stringify(newBackup)
   );
 
   if (newFile == "false") return res.send("ERROR I GUESS");
-  res.send("BACKUP HAS BEEN COMPLETED");
+  res.redirect("/admin/panel");
 });
 
 //! DO A BACKUP ROUTE THAT GETS A FILENAME FROM req.body.fname AND THEN GETS THIS FILE JSON AND SPLITS IT INTO 2 ARRAYS
 //! USER ARRAY AND WAITLIST ARRAY
 //! IF SUCCESFUL DELETE ALL DOCUMENTS IN users AND waitlists COLLECTION
-//! 2 FOR LOOP THAT INPUTS ALL THE DATA 
+//! 2 FOR LOOP THAT INPUTS ALL THE DATA
 //! OR JUST TWO INSERTMANY(user[]) and  INSERTMANY(waitlists[])
-// router.post("/doabackup", authenticateToken, async (req, res) => {
-
-// })
+router.post("/doabackup", authenticateToken, async (req, res) => {
+  const backupObj = JSON.parse(fs.readFileSync("./backup/"+req.body.which, "utf-8"));
+  const usersArr = backupObj.users;
+  const waitListArr = backupObj.waitlist;
+  if(usersArr !== undefined){
+    const userDel = await Users.deleteMany({});
+    if(!userDel) return res.send("There was an error deleting the users collection")
+    const userInput = await Users.insertMany(usersArr);
+  }
+  if(waitListArr !== undefined){
+    const waitListDel = await waitList.deleteMany({});
+    if(!waitListDel) return res.send("There was an error deleting the waitlist collection")
+    const waitListInput = await waitList.insertMany(waitListArr);
+  }
+  res.redirect("/admin/panel");
+})
 
 function authenticateToken(req, res, next) {
   const token = req.cookies.jwt;
@@ -274,6 +291,15 @@ function authenticateToken(req, res, next) {
     next();
   });
 }
+
+function checkDir(req, res, next) {
+  files = fs.readdirSync('./backup', {withFileTypes: true})
+  .filter(item => !item.isDirectory())
+  .map(item => item.name);
+  if(files[0] === undefined) files[0] = "Nie ma kopi zapasowych"
+    next();
+}
+
 
 function generateAccessToken(admin) {
   return jwt.sign(admin.toJSON(), process.env.ACCESS_TOKEN_SECRET, {

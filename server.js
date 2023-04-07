@@ -9,6 +9,7 @@ const cors = require("cors");
 const db = require('./models/conn.js');
 const cookieParser = require('cookie-parser');
 var path = require('path');
+
 app.use(cors());
 app.use(express.static(path.join(__dirname, "public"))); //! static folder declaration
 
