@@ -4,6 +4,26 @@
     "odpowiedz": "REPAIR TABLE tblname"
   },
   {
+    "tresc": "Dana jest tabela o nazwie wycieczki z polami: nazwa, cena, miejsca (jako liczba wolnych miejsc). Aby dla dowolnego zbioru danych tabeli wyświetlić jedynie nazwy tych wycieczek, dla których cena jest niższa niż 2000 zł i mają przynajmniej cztery wolne miejsca, należy posłużyć się zapytaniem",
+    "odpowiedz": "SELECT nazwa FROM wycieczki WHERE cena < 2000 AND miejsca > 3;"
+  },
+  {
+    "tresc": "Które z poleceń naprawi uszkodzoną tabelę w języku SQL?",
+    "odpowiedz": "REPAIR TABLE tblname"
+  },
+  {
+    "tresc": "Dana jest tabela zwierzeta z polami: nazwa, gatunek, gromada, cechy, dlugosc_zycia. Dla dowolnego zestawu danych, aby wyświetlić nazwy tych zwierząt, które żyją przynajmniej 20 lat oraz są ssakami, należy wydać zapytanie:",
+    "odpowiedz": "SELECT nazwa FROM zwierzeta WHERE dlugosc_zycia >=20 AND gromada = 'ssak';"
+  },
+  {
+    "tresc": "Dana jest tabela uczniowie o polach id, nazwisko, imie, klasa. Które zapytanie SQL wyświetli liczbę osób w poszczególnych klasach oraz nazwę klasy?",
+    "odpowiedz": "SELECT COUNT(id), klasa FROM uczniowie GROUP BY klasa;"
+  },
+  {
+    "tresc": "Które zapytanie SQL dla tabeli pracownicy utworzonej według schematu: id, imie, nazwisko, plec, zarobek, obliczy osobno średni zarobek kobiet i średni zarobek mężczyzn?",
+    "odpowiedz": "SELECT AVG(zarobek) FROM pracownicy GROUP BY plec;"
+  },
+  {
     "tresc": "Z jakimi mechanizmami nadawania zabezpieczeń, dającymi możliwości wykonywania operacji na bazie danych, związane są zagadnienia zarządzania kontami, użytkownikami i uprawnieniami?",
     "odpowiedz": "Z przywilejami systemowymi"
   },
