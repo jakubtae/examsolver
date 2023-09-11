@@ -65,7 +65,7 @@ router.post("/solve", async (req, res) => {
                         //! WEZ ODPOWIEDZ
                         //! DOPISZ DO TABELII ODPOWIEDZI
                         j = wszystkie.length;
-                        odpowiedzi.push({"tresc": CzyTresc, "odp" : CzyOdpowiedz});
+                        odpowiedzi.push(CzyOdpowiedz);
                       }
                     }
                     // * END OF SECOND FOR LOOP
